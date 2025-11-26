@@ -14,6 +14,8 @@ public class Product:BaseEntitey
     public required String PictureUrl { get; set; }
     public required String Brand { get; set; }
 
+    public required String Type { get; set; }
+
     public int QuantityInStock { get; set; }
 
 

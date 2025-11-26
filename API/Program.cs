@@ -1,3 +1,4 @@
+using Core.InterFaces;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,6 +13,8 @@ builder.Services.AddDbContext<StorContext>(opt =>
     
 });
 
+builder.Services.AddScoped<IProductRepository , ProductRepository>();
+
 
 var app = builder.Build();
 
@@ -23,4 +26,18 @@ var app = builder.Build();
 
 app.MapControllers();
 
+try
+{
+    using var scope = app.Services.CreateScope();
+    var services = scope.ServiceProvider;
+    var context = services.GetRequiredService<StorContext>();
+    await context.Database.MigrateAsync();
+    await StoreContectSeed.SeedAsync(context);
+
+}
+catch (System.Exception ex)
+{
+    Console.WriteLine(ex);
+    throw;
+}
 app.Run();

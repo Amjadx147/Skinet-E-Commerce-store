@@ -2,7 +2,7 @@
 
 
 
-// Customize the entire app. Change :root to your selector if you want to scope the styles.
+
 :root {
   @include mat.button-overrides((
     filled-container-shape: '6px', 
@@ -17,6 +17,10 @@
 
 .match-input-height {
   height: var(--mat-form-field-container-height) !important;
+}
+
+.mdc-notched-outline__nothc { 
+  border-right-style: none !important;
 }
 
 

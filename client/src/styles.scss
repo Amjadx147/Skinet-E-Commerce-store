@@ -24,3 +24,20 @@
 }
 
 
+.snack-error{
+    @include mat.snack-bar-overrides((
+    button-color: rgb(255, 255, 255),
+    container-color: red,
+    supporting-text-color : white
+  ));
+}
+
+.snack-seccess{
+    @include mat.snack-bar-overrides((
+    button-color: rgb(255, 255, 255),
+    container-color: rgb(26, 136, 32),
+    supporting-text-color : white
+  ));
+}
+
+

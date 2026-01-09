@@ -1,11 +1,14 @@
 using Core.InterFaces;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
-using API.Middalwere; 
+using API.Middalwere;
+using StackExchange.Redis;
+using Infrastructure.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddControllers();
 
 builder.Services.AddControllers();
 builder.Services.AddDbContext<StorContext>(opt =>
@@ -17,7 +20,15 @@ builder.Services.AddDbContext<StorContext>(opt =>
 builder.Services.AddScoped<IProductRepository , ProductRepository>();
 builder.Services.AddScoped(typeof(IGenericRepository<> ), typeof(GenericRepository<>)) ;
 builder.Services.AddCors(); 
+builder.Services.AddSingleton<IConnectionMultiplexer>(config =>
+{
+    var connstring = builder.Configuration.GetConnectionString("Redis") ?? throw new Exception("Cannot get redis connecation string");
+    var configuration  = ConfigurationOptions.Parse(connstring, true);
+    return ConnectionMultiplexer.Connect(configuration);
+});
+builder.Services.AddSingleton<ICartService, CartService>();
 
+  
 
 var app = builder.Build();
 
